@@ -134,3 +134,19 @@ body {
     text-shadow: 2px 2px 2px #021124;
 }
 
+#issue-search input {
+    width: 30%;
+}
+
+#issue-search select {
+    width: 40%;
+}
+
+.issues > h3 {
+    display: inline-block;
+}
+
+.issues > span{
+    display: inline-block;
+    text-align: right;
+}

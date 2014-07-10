@@ -530,16 +530,20 @@ app.controller("ScanController", function($scope, $routeParams, $http, $location
                         issue.session = session;
                         switch (issue.Severity) {
                             case "High":
+                                issue.position = 4;
                                 issueCounts.high++;
                                 break;
                             case "Medium":
+                                issue.position = 3;
                                 issueCounts.medium++;
                                 break;
                             case "Low":
+                                issue.position = 2;
                                 issueCounts.low++;
                                 break;
                             case "Informational":
                             case "Info":
+                                issue.position = 1;
                                 issueCounts.info++;
                                 break;
                             case "Error":

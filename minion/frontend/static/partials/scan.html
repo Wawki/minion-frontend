@@ -73,9 +73,18 @@
           <p><strong>This scan was aborted:</strong> {{scan.failure.message}}</p>
         </div>
 
-        <div ng-show="issues.length > 0">
+        <div ng-show="issues.length > 0" class="issues">
 
-            <h3>Found Issues</h3>
+			<h3>Found Issues</h3>
+            <span id="issue-search">
+                Search: <input ng-model="query"> Sort by:
+                <select ng-model="orderOption">
+                    <option value="Summary">Summary (ascending)</option>
+                    <option value="-Summary">Summary (descending)</option>
+                    <option value="position">Severity (ascending)</option>
+                    <option value="-position">Severity (descending)</option>
+                </select>
+            </span>
 
             <table class="table table-bordered">
               <thead>

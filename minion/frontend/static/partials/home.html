@@ -30,8 +30,29 @@
         <select ng-model="group" ng-options="group for group in groups" ng-change="changeGroup()"></select>
       </div>
     </h2>
+    <span class="pull-right">
+          Search: <input ng-model="query">  Sort by:
+          <select ng-model="orderOption">
+              <option value="plan">Plan (ascending)</option>
+              <option value="-plan">Plan (descending)</option>
+              <option value="label">Name (ascending)</option>
+              <option value="-label">Name (descending)</option>
+              <option value="scan.created">Created on (ascending)</option>
+              <option value="-scan.created">Created on (descending)</option>
+              <option value="scan.state">State (ascending)</option>
+              <option value="-scan.state">State (descending)</option>
+              <option value="scan.issues.high">High issues (ascending)</option>
+              <option value="-scan.issues.high">High issues (descending)</option>
+              <option value="scan.issues.medium">Medium issues (ascending)</option>
+              <option value="-scan.issues.medium">Medium issues (descending)</option>
+              <option value="scan.issues.low">Low issues (ascending)</option>
+              <option value="-scan.issues.low">Low issues (descending)</option>
+              <option value="scan.issues.info">Info issues (ascending)</option>
+              <option value="-scan.issues.info">Info issues (descending)</option>
+          </select>
+    </span>
 
-      <table class="table">
+      <table class="table" id="home-table">
         <thead>
           <tr>
             <th>Site</th>
@@ -45,7 +66,7 @@
             <th></th>
           </tr>
         </thead>
-        <tr ng-repeat="r in report">
+        <tr ng-repeat="r in report | filter:query | orderBy: orderOption">
           <td><a href="{{r.label}}" target="_blank">{{r.label}}</a></td>
           <td><a ng-href="#!/plan/{{r.plan}}">{{r.plan}}</a></td>
           <td>{{(r.scan.created | scan_datetime) || "-" }}</td>
