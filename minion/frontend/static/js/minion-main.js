@@ -521,12 +521,13 @@ app.controller("ScanController", function($scope, $routeParams, $http, $location
             if (response.success) {
                 var scan = response.data;
                 var issues = [];
+                var false_positive_issues = [];
+                var ignored_issues = [];
                 $scope.timenow = Math.round(+new Date()/1000);
                 var issueCounts = {high: 0, medium: 0, low: 0, info: 0, error: 0};
                 _.each(scan.sessions, function (session) {
                     _.each(session.issues, function (issue) {
                         issue.session = session;
-                        issues.push(issue);
                         switch (issue.Severity) {
                             case "High":
                                 issueCounts.high++;
@@ -545,6 +546,15 @@ app.controller("ScanController", function($scope, $routeParams, $http, $location
                                 issueCounts.error++;
                                 break;
                         }
+                        if (issue.False_positive) {
+                            false_positive_issues.push(issue);
+                        }
+                        else if(issue.Ignored){
+                            ignored_issues.push(issue);
+                        }
+                        else{
+                            issues.push(issue);
+                        }
                     });
                 });
             } else {
@@ -560,9 +570,68 @@ app.controller("ScanController", function($scope, $routeParams, $http, $location
             });
             $scope.scan = scan;
             $scope.issues = issues;
+            $scope.false_positive_issues = false_positive_issues;
+            $scope.ignored_issues = ignored_issues;
             $scope.issueCounts = issueCounts;
             $scope.failures = failures;
+            $scope.checkedIssues = {};
+            $scope.checkedFalsePositiveIssues = {};
+            $scope.checkedIgnoredIssues = {};
         });
+
+        $scope.tagFalsePositive = function(checkedBoxes, boolean) {
+            angular.forEach(checkedBoxes, function(checked, id) {
+                if(checked) {
+                    $http.put('/api/issue/tagFalsePositive', {issueId: id, boolean: boolean}).success(function(response) {
+                        if (response.success) {
+                            if (boolean){
+                                var issue = getIssueById($scope.issues, id)
+                                $scope.issues.splice($scope.issues.indexOf(issue), 1);
+                                $scope.false_positive_issues.push(issue);
+                            }
+                            else{
+                                var issue = getIssueById($scope.false_positive_issues, id)
+                                $scope.false_positive_issues.splice($scope.false_positive_issues.indexOf(issue), 1);
+                                $scope.issues.push(issue);
+                            }
+                        }
+                    });
+                }
+            });
+            $scope.checkedIssues = {};
+            $scope.checkedFalsePositiveIssues = {};
+        };
+
+        $scope.tagIgnored = function(checkedBoxes, boolean) {
+            angular.forEach(checkedBoxes, function(checked, id) {
+                if(checked) {
+                    $http.put('/api/issue/tagIgnored', {issueId: id, boolean: boolean}).success(function(response) {
+                        if (response.success) {
+                            if (boolean){
+                                var issue = getIssueById($scope.issues, id)
+                                $scope.issues.splice($scope.issues.indexOf(issue), 1);
+                                $scope.ignored_issues.push(issue);
+                            }
+                            else{
+                                var issue = getIssueById($scope.ignored_issues, id)
+                                $scope.ignored_issues.splice($scope.ignored_issues.indexOf(issue), 1);
+                                $scope.issues.push(issue);
+                            }
+                        }
+                    });
+                }
+            });
+            $scope.checkedIssues = {};
+            $scope.checkedIgnoredIssues = {};
+        };
+
+        function getIssueById (issues, id) {
+            for (var i = 0; i < issues.length; i++) {
+                if (issues[i].Id == id) {
+                    return issues[i];
+                }
+            }
+        }
     });
 });
 
@@ -582,6 +651,22 @@ app.controller("IssueController", function($scope, $routeParams, $http) {
             $scope.scan = response.data.scan;
         });
     });
+
+    $scope.tagFalsePositive = function (issueId, boolean) {
+        $http.put('/api/issue/tagFalsePositive', {issueId: issueId, boolean: boolean}).success(function(response) {
+            if (response.success) {
+                $scope.issue.False_positive = boolean;
+            }
+        });
+    };
+
+    $scope.tagIgnored = function (issueId, boolean) {
+        $http.put('/api/issue/tagIgnored', {issueId: issueId, boolean: boolean}).success(function(response) {
+            if (response.success) {
+                $scope.issue.Ignored = boolean;
+            }
+        });
+    };
 });
 
 app.controller("SessionFailureController", function($scope, $routeParams, $http) {

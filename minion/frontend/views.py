@@ -434,6 +434,38 @@ def api_issues():
         return jsonify(success=False, data=None)
     return jsonify(success=True, data=report)
 
+@app.route("/api/issue/tagFalsePositive", methods=['PUT'])
+@requires_session
+def api_issue_tag_false_positive():
+    # Find the issue ID and boolean
+    issueId = request.json['issueId']
+    boolean = request.json['boolean']
+    # Tag or untag as false positive the issue
+    r = requests.post(config['backend-api']['url'] + "/issue/tagFalsePositive",
+                      headers={'Content-Type': 'application/json'},
+                      data=json.dumps({
+                          'issueId': issueId,
+                          'boolean': boolean}))
+    r.raise_for_status()
+
+    return jsonify(success=r.json()['success'], reason=r.json().get('reason'))
+
+@app.route("/api/issue/tagIgnored", methods=['PUT'])
+@requires_session
+def api_issue_tag_ignored():
+    # Find the issue ID and boolean
+    issueId = request.json['issueId']
+    boolean = request.json['boolean']
+    # Tag or untag as false positive the issue
+    r = requests.post(config['backend-api']['url'] + "/issue/tagIgnored",
+                      headers={'Content-Type': 'application/json'},
+                      data=json.dumps({
+                          'issueId': issueId,
+                          'boolean': boolean}))
+    r.raise_for_status()
+
+    return jsonify(success=r.json()['success'], reason=r.json().get('reason'))
+
 @app.route("/api/invites/<invite_id>", methods=['GET', 'PUT'])
 def api_invite(invite_id):
     invite = _backend_get_invite(invite_id)
