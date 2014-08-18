@@ -516,11 +516,17 @@ app.controller("RawController", function ($scope, $routeParams, $http, $location
 });
 
 app.controller("ScanController", function($scope, $routeParams, $http, $location) {
+
+    $scope.getArtifact = function(scanId, artifactName) {
+        window.open('/api/scan/' + scanId + '/artifact/' + artifactName, '_blank', '');
+    }
+
     $scope.$on('$viewContentLoaded', function() {
         $http.get('/api/scan/' + $routeParams.scanId).success(function(response) {
             if (response.success) {
                 var scan = response.data;
                 var issues = [];
+                var artifacts = [];
                 var false_positive_issues = [];
                 var ignored_issues = [];
                 $scope.timenow = Math.round(+new Date()/1000);
@@ -528,6 +534,7 @@ app.controller("ScanController", function($scope, $routeParams, $http, $location
                 _.each(scan.sessions, function (session) {
                     _.each(session.issues, function (issue) {
                         issue.session = session;
+                        issues.push(issue);
                         switch (issue.Severity) {
                             case "High":
                                 issue.position = 4;
@@ -559,6 +566,11 @@ app.controller("ScanController", function($scope, $routeParams, $http, $location
                         else{
                             issues.push(issue);
                         }
+						});
+                    	_.each(session.artifacts, function (artifact) {
+                        	artifact.session = session;
+                        	artifacts.push(artifact);
+                    	});
                     });
                 });
             } else {
@@ -577,6 +589,7 @@ app.controller("ScanController", function($scope, $routeParams, $http, $location
             $scope.false_positive_issues = false_positive_issues;
             $scope.ignored_issues = ignored_issues;
             $scope.issueCounts = issueCounts;
+            $scope.artifacts = artifacts
             $scope.failures = failures;
             $scope.checkedIssues = {};
             $scope.checkedFalsePositiveIssues = {};

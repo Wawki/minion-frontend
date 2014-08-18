@@ -519,6 +519,12 @@ def api_scan_issue(minion_scan_id, minion_issue_id):
     else:
         return jsonify(success=False, reason=r.json()['reason'])
 
+@app.route("/api/scan/<minion_scan_id>/artifact/<minion_artifact_name>")
+@requires_session
+def api_scan_artifact(minion_scan_id, minion_artifact_name):
+    r = requests.get(config['backend-api']['url'] + "/scans/" + minion_scan_id + "/artifact/" + minion_artifact_name)
+    return Response(response=r, mimetype=r.headers['content-type'])
+
 @app.route("/api/scan/<minion_scan_id>")
 @requires_session
 def api_scan(minion_scan_id):
