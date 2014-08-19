@@ -566,7 +566,6 @@ app.controller("ScanController", function($scope, $routeParams, $http, $location
                         else{
                             issues.push(issue);
                         }
-						});
                     	_.each(session.artifacts, function (artifact) {
                         	artifact.session = session;
                         	artifacts.push(artifact);
