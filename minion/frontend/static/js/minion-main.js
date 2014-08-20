@@ -566,10 +566,10 @@ app.controller("ScanController", function($scope, $routeParams, $http, $location
                         else{
                             issues.push(issue);
                         }
-                    	_.each(session.artifacts, function (artifact) {
-                        	artifact.session = session;
-                        	artifacts.push(artifact);
-                    	});
+                    });
+                    _.each(session.artifacts, function (artifact) {
+                        artifact.session = session;
+                        artifacts.push(artifact);
                     });
                 });
             } else {
@@ -590,6 +590,7 @@ app.controller("ScanController", function($scope, $routeParams, $http, $location
             $scope.issueCounts = issueCounts;
             $scope.artifacts = artifacts
             $scope.failures = failures;
+            console.log($scope.artifacts);
             $scope.checkedIssues = {};
             $scope.checkedFalsePositiveIssues = {};
             $scope.checkedIgnoredIssues = {};
