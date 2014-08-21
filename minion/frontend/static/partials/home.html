@@ -8,7 +8,20 @@
 
     <div ng-show="report && report.length == 0">
       <h2>Welcome to Minion</h2>
-      <p>You do not have any sites in Minion yet. This should become a nice landing page for new users.</p>
+      <div ng-show="administrators && administrators.length > 0 && session.role == 'administrator'">
+          <p>It seems that you do not have any sites in Minion yet. Go add some thanks to the admin menu</p>
+      </div>
+      <div ng-show="administrators && administrators.length > 0 && session.role != 'administrator'">
+          <p>It seems that you do not have any assigned sites in Minion yet. This can happen when you have not yet been assigned to a group.</p>
+          <div>Please a contact a admnistrator for more informations :
+            <ul ng-repeat="admin in administrators">
+                <li>{{admin}}</li>
+            </ul>
+          </div>
+      </div>
+      <div ng-show="administrators && administrators.length == 0">
+          <p>It seems that no administrator has been registered for now in Minion. Please use the minion-db-init script on Backend to register one.</p>
+      </div>
     </div>
 
     <div ng-show="report.length > 0">
