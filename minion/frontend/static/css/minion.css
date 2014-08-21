@@ -130,3 +130,6 @@ body {
     text-shadow: 2px 2px 2px #021124;
 }
 
+#custom_table td {
+    padding: 2px;
+}
