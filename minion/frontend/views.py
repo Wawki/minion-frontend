@@ -564,6 +564,21 @@ def api_profile():
         return jsonify(success=False, data=None)
     return jsonify(success=True, data=user)
 
+@app.route("/api/administrators")
+@requires_session
+def api_administrators():
+    users = _backend_list_users()
+
+    if users is None:
+        return jsonify(success=False, data=None)
+    else:
+        administrators_email = []
+        for user in users:
+            if user['role'] == 'administrator':
+                administrators_email.append(user['email'])
+
+        return jsonify(success=True, data=administrators_email)
+
 @app.route("/api/sites")
 @requires_session
 def api_sites():

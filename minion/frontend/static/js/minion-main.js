@@ -390,6 +390,11 @@ app.controller('SitesController', function($scope, $timeout, $http, $location) {
     };
 
     $scope.$on('$viewContentLoaded', function() {
+        $http.get("/api/administrators").success(function(response) {
+            if (response.success) {
+                $scope.administrators = response.data;
+            }
+        });
         $http.get("/api/profile").success(function(response) {
             if (response.success) {
                 $scope.groups = response.data.groups;
