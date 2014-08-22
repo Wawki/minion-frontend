@@ -761,6 +761,18 @@ app.filter('scan_datetime_fromnow', function () {
     };
 });
 
+app.filter('site_label', function () {
+    return function(input, list, index) {
+        if (index != 0 && (list[index-1].target == list[index].target)){
+            input = '-';
+        }
+        else{
+            input = list[index].target;
+        }
+        return input;
+    };
+});
+
 app.filter('moment_duration', function () {
     return function(input, timenow) {
         var start, end;

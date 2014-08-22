@@ -48,8 +48,8 @@
           <select ng-model="orderOption">
               <option value="plan">Plan (ascending)</option>
               <option value="-plan">Plan (descending)</option>
-              <option value="label">Name (ascending)</option>
-              <option value="-label">Name (descending)</option>
+              <option value="target">Site (ascending)</option>
+              <option value="-target">Site (descending)</option>
               <option value="scan.created">Created on (ascending)</option>
               <option value="-scan.created">Created on (descending)</option>
               <option value="scan.state">State (ascending)</option>
@@ -79,8 +79,8 @@
             <th></th>
           </tr>
         </thead>
-        <tr ng-repeat="r in report | filter:query | orderBy: orderOption">
-          <td><a href="{{r.label}}" target="_blank">{{r.label}}</a></td>
+        <tr ng-repeat="r in (orderedReport = (report | filter:query | orderBy: orderOption))">
+          <td><a href="{{r.label}}" target="_blank">{{r.label | site_label:orderedReport:$index}}</a></td>
           <td><a ng-href="#!/plan/{{r.plan}}">{{r.plan}}</a></td>
           <td>{{(r.scan.created | scan_datetime) || "-" }}</td>
           <td>{{r.scan.state || "-"}}</td>
