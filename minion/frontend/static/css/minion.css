@@ -150,3 +150,7 @@ body {
     display: inline-block;
     text-align: right;
 }
+
+#custom_table td {
+    padding: 2px;
+}
