@@ -179,26 +179,30 @@
           </tr>
         </table>
 
-        <h3>Artifacts</h3>
+        <div ng-show="artifacts.length > 0">
 
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>Plugin</th>
-              <th>Artifact name</th>
-              <th>Links</th>
-            </tr>
-          </thead>
-          <tr ng-repeat="artifact in artifacts">
-            <td>{{artifact.session.plugin.name}} (v{{artifact.session.plugin.version}})</td>
-            <td>{{artifact.name}}</td>
-            <td>
-                <div ng-repeat="path in artifact.paths">
-                    <a ng-click="getArtifact(scan.id,path.path)">{{path.path}}</a>
-                </div>
-            </td>
-          </tr>
-        </table>
+            <h3>Artifacts</h3>
+
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Plugin</th>
+                  <th>Artifact name</th>
+                  <th>Links</th>
+                </tr>
+              </thead>
+              <tr ng-repeat="artifact in artifacts">
+                <td>{{artifact.session.plugin.name}} (v{{artifact.session.plugin.version}})</td>
+                <td>{{artifact.name}}</td>
+                <td>
+                    <div ng-repeat="path in artifact.paths">
+                        <a ng-click="getArtifact(scan.id,path)">{{path}}</a>
+                    </div>
+                </td>
+              </tr>
+            </table>
+
+        </div>
 
         <div ng-show="failures.length > 0">
 
