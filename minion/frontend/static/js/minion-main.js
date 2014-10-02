@@ -355,7 +355,7 @@ app.controller('SitesController', function($scope, $timeout, $http, $location) {
             $scope.report = response.data;
         });
         // Schedule the next reload
-        reloadPromise = $timeout($scope.reloadSites, 2000);
+        reloadPromise = $timeout($scope.reloadSites, 10000);
     };
 
     $scope.reloadSites = function() {
