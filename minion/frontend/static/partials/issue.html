@@ -7,10 +7,13 @@
 <div class="container" ng-controller="IssueController">
 
   <h2>Issue Details -
-      <span ng-show="issue.False_positive"><span class="false-positive">False Positive</span> <button class="btn" type="button" ng-click="tagFalsePositive(issue.Id, false)">Untag as false positive</button></span>
-      <span ng-show="!issue.False_positive && !issue.Ignored"> <button class="btn" type="button" ng-click="tagFalsePositive(issue.Id, true)">Tag as false positive</button></span>
-      <span ng-show="issue.Ignored"><span class="false-positive">Ignored</span> <button class="btn" type="button" ng-click="tagIgnored(issue.Id, false)">Untag as ignored</button></span>
-      <span ng-show="!issue.Ignored && !issue.False_positive"> <button class="btn" type="button" ng-click="tagIgnored(issue.Id, true)">Tag as ignored</button></span>
+      <span ng-show="issue.Status == 'Fixed'" class="fixed-issue">Fixed</span>
+      <span ng-show="issue.Status == 'FalsePositive'"><span class="false-positive">False Positive</span> <button class="btn" type="button" ng-click="tagIssue(issue.Id, false, '-')">Untag as false positive</button></span>
+      <span ng-show="issue.Status == 'Ignored'"><span class="ignored">Ignored</span> <button class="btn" type="button" ng-click="tagIssue(issue.Id, false, '-')">Untag as ignored</button></span>
+      <span ng-show="issue.Status != 'Fixed' && issue.Status != 'FalsePositive' && issue.Status != 'Ignored'">
+          <button class="btn" type="button" ng-click="tagIssue(issue.Id, true, 'FalsePositive')">Tag as false positive</button>
+          <button class="btn" type="button" ng-click="tagIssue(issue.Id, true, 'Ignored')">Tag as ignored</button></span>
+      </span>
       <span class="pull-right "><small>&larr; <a ng-href="#!/scan/{{scan.id}}">Scan Results</a></small></span></h2>
 
   <table class="table table-bordered">

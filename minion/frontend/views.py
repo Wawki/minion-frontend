@@ -510,34 +510,20 @@ def api_issues():
         return jsonify(success=False, data=None)
     return jsonify(success=True, data=report)
 
-@app.route("/api/issue/tagFalsePositive", methods=['PUT'])
+@app.route("/api/issue/tagIssue", methods=['PUT'])
 @requires_session
-def api_issue_tag_false_positive():
+def api_tag_issue():
     # Find the issue ID and boolean
     issueId = request.json['issueId']
     boolean = request.json['boolean']
+    status = request.json['status']
     # Tag or untag as false positive the issue
-    r = requests.post(config['backend-api']['url'] + "/issue/tagFalsePositive",
+    r = requests.post(config['backend-api']['url'] + "/issue/tagIssue",
                       headers={'Content-Type': 'application/json'},
                       data=json.dumps({
                           'issueId': issueId,
-                          'boolean': boolean}))
-    r.raise_for_status()
-
-    return jsonify(success=r.json()['success'], reason=r.json().get('reason'))
-
-@app.route("/api/issue/tagIgnored", methods=['PUT'])
-@requires_session
-def api_issue_tag_ignored():
-    # Find the issue ID and boolean
-    issueId = request.json['issueId']
-    boolean = request.json['boolean']
-    # Tag or untag as false positive the issue
-    r = requests.post(config['backend-api']['url'] + "/issue/tagIgnored",
-                      headers={'Content-Type': 'application/json'},
-                      data=json.dumps({
-                          'issueId': issueId,
-                          'boolean': boolean}))
+                          'boolean': boolean,
+                          'status': status}))
     r.raise_for_status()
 
     return jsonify(success=r.json()['success'], reason=r.json().get('reason'))

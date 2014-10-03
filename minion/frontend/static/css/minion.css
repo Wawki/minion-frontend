@@ -60,8 +60,36 @@ body {
     background-color: #999999;
 }
 
+.severity-Fixed {
+    background-color: green;
+}
+
+.severity-Current {
+    background-color: darkmagenta;
+}
+
+.severity-FalsePositive {
+    background-color: darkgreen;
+}
+
+.severity-Ignored {
+    background-color: forestgreen;
+}
+
+.severity-New {
+    background-color: red;
+}
+
 .false-positive {
-    color: red;
+    color: darkgreen;
+}
+
+.fixed-issue {
+    color: green;
+}
+
+.ignored {
+    color : forestgreen;
 }
 
 .form-signin {
