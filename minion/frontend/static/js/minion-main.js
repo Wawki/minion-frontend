@@ -610,7 +610,6 @@ app.controller("ScanController", function($scope, $routeParams, $http, $location
                 _.each(scan.sessions, function (session) {
                     _.each(session.issues, function (issue) {
                         issue.plugin = session.plugin;
-                        issues.push(issue);
                         switch (issue.Severity) {
                             case "High":
                                 issue.position = 4;
