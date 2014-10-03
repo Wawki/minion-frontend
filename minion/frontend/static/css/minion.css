@@ -76,10 +76,6 @@ body {
     background-color: forestgreen;
 }
 
-.severity-New {
-    background-color: red;
-}
-
 .false-positive {
     color: darkgreen;
 }
