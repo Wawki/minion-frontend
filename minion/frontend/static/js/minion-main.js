@@ -388,12 +388,20 @@ app.controller('SitesController', function($scope, $timeout, $http, $location) {
             $http.get(api_url).success(function(response, status, headers, config){
                 var report_changed = false;
                 _.each(response.data, function (r, idx) {
+                    var report_in_old_report = true;
                     if( r.scan !== null ){
+                        report_in_old_report = false;
                         for(var i = 0; i < $scope.report.length; i++){
-                            if( $scope.report[i].scan !== null && r.plan == $scope.report[i].plan && r.target == $scope.report[i].target && r.scan.state != $scope.report[i].scan.state ){
-                                report_changed = true;
+                            if( $scope.report[i].scan !== null && r.plan == $scope.report[i].plan && r.target == $scope.report[i].target ){
+                                report_in_old_report = true;
+                                if( r.scan.state != $scope.report[i].scan.state ){
+                                    report_changed = true;
+                                }
                             }
                         }
+                    }
+                    if( !report_in_old_report ){
+                        report_changed = true;
                     }
                     r.label = r.target;
                     if (idx > 0) {
@@ -413,7 +421,7 @@ app.controller('SitesController', function($scope, $timeout, $http, $location) {
 
     $scope.changeGroup = function() {
         localStorage.setItem("HomeController.group", $scope.group);
-        $scope.reloadSites();
+        $scope.getContent();
     };
 
     $scope.$on('$viewContentLoaded', function() {
