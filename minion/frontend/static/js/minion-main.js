@@ -356,6 +356,7 @@ app.controller('SitesController', function($scope, $timeout, $http, $location) {
 
     $scope.group = null;
     $scope.groups = [];
+    $scope.report = [];
 
     $scope.getContent = function() {
         var api_url = "/api/sites";
@@ -374,13 +375,39 @@ app.controller('SitesController', function($scope, $timeout, $http, $location) {
             $scope.report = response.data;
         });
         // Schedule the next reload
-        reloadPromise = $timeout($scope.reloadSites, 10000);
+        reloadPromise = $timeout($scope.reloadSites, 3000);
     };
 
     $scope.reloadSites = function() {
         $timeout.cancel(reloadPromise);
+        var api_url = "/api/sites";
+        if ($scope.group) {
+            api_url = api_url + "?group_name=" + $scope.group;
+        }
         if ($location.path() == "/home/sites" || $location.path() == "/") {
-            $scope.getContent();
+            $http.get(api_url).success(function(response, status, headers, config){
+                var report_changed = false;
+                _.each(response.data, function (r, idx) {
+                    if( r.scan !== null ){
+                        for(var i = 0; i < $scope.report.length; i++){
+                            if( $scope.report[i].scan !== null && r.plan == $scope.report[i].plan && r.target == $scope.report[i].target && r.scan.state != $scope.report[i].scan.state ){
+                                report_changed = true;
+                            }
+                        }
+                    }
+                    r.label = r.target;
+                    if (idx > 0) {
+                        if (r.target === response.data[idx-1].target) {
+                            r.label = "";
+                        }
+                    }
+                });
+                if( report_changed ){
+                    $scope.report = response.data;
+                }
+            });
+            // Schedule the next reload
+            reloadPromise = $timeout($scope.reloadSites, 3000);
         }
     };
 
@@ -405,7 +432,7 @@ app.controller('SitesController', function($scope, $timeout, $http, $location) {
                     $scope.group = $scope.groups[0];
                 }
                 // Call this once to trigger polling
-                $scope.reloadSites();
+                $scope.getContent();
             }
         });
     });
