@@ -21,6 +21,7 @@
       <td><b>Summary</b></td>
       <td ng-bind-html-unsafe="issue.Summary|link_bugs"></td>
     </tr>
+
     <tr ng-show="issue.Classification.cwe_id || issue.Classification.wasc_id">
       <td><b>Classification</b></td>
       <td ng-bind-html-unsafe="issue.Classification | classify_issue"></td>
@@ -78,6 +79,10 @@
     <tr ng-show='url.Extra'>
 	    <td><b>Extra</b></td>
 	    <td>{{url.Extra}}</td>
+    </tr>
+    <tr ng-show='url.Code'>
+	    <td><b>Incriminated code</b></td>
+	    <td><pre>{{url.Code}}</pre></td>
     </tr>
     </table>
 
