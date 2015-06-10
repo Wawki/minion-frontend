@@ -161,6 +161,19 @@ minionAdminPlansModule.controller("AdminPlansController", function($scope, $rout
         });
     };
 
+    $scope.deletePlan = function(plan) {
+        var title = 'Delete all from Plan';
+        var msg = 'Are you sure you want to delete everything relating ' + plan.name + ' plan? ';
+        msg += 'Warning this will delete every reference to the plan and existing results';
+        var btns = [{result:false, label: 'Cancel'}, {result:true, label: 'OK', cssClass: 'btn-primary'}];
+        $dialog.messageBox(title, msg, btns).open().then(function(result) {
+            if (result) {
+                $http.delete('/api/admin/plans/' + plan.name).success(function(response) {
+                    reload();
+                });
+            }
+        });
+    };
     $scope.$on('$viewContentLoaded', function() {
         reload();
     });
