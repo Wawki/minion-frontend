@@ -56,8 +56,8 @@
           <td><span class="label warning-info minion-issue-count-label">{{r.scan.issues.info || "-"}}</span></td>
           <td>
             <button class="btn btn-mini btn-primary minion-btn" type="button" ng-click="openScan(r.scan.id)" ng-disabled="!r.scan" >Details</button>
-            <button class="btn btn-mini btn-primary minion-btn" type="button" ng-click="startScan(r.target, r.plan)" ng-show="r.scan.state != 'STARTED' && r.scan.state != 'QUEUED'">Scan</button>
-            <button class="btn btn-mini btn-primary minion-btn" type="button" ng-click="stopScan(r.scan.id)" ng-show="r.scan.state == 'STARTED' || r.scan.state == 'QUEUED'">Stop</button>
+            <button class="btn btn-mini btn-primary minion-btn" type="button" ng-click="startScan(r.target, r.plan)" ng-show="(r.scan.state != 'STARTED' && r.scan.state != 'QUEUED') && session.role != 'readonly'">Scan</button>
+            <button class="btn btn-mini btn-primary minion-btn" type="button" ng-click="stopScan(r.scan.id)" ng-show="(r.scan.state == 'STARTED' || r.scan.state == 'QUEUED') && session.role != 'readonly'">Stop</button>
           </td>
         </tr>
       </table>
