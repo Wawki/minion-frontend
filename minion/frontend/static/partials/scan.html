@@ -89,7 +89,7 @@
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th></th>
+                  <th ng-show="session.role != 'readonly'"></th>
                   <th>Status</th>
                   <th>Severity</th>
                   <th>Plugin</th>
@@ -97,7 +97,7 @@
                 </tr>
               </thead>
               <tr ng-repeat="issue in issues | filter:query | orderBy: orderOption">
-                <td><input type="checkbox" ng-model="checkedIssues[issue.Id]"></td>
+                <td ng-show="session.role != 'readonly'"><input type="checkbox" ng-model="checkedIssues[issue.Id]"></td>
                 <td>
                     <span class="label severity-{{issue.Status}} minion-severity-label">{{issue.Status}}</span>
                 </td>
@@ -109,8 +109,8 @@
               </tr>
             </table>
 
-            <button class="btn" type="button" ng-click="tagIssue(checkedIssues, true, 'FalsePositive')">Tag selected issues as false positive</button>
-            <button class="btn" type="button" ng-click="tagIssue(checkedIssues, true, 'Ignored')">Tag selected issues as ignored</button>
+            <button class="btn" type="button" ng-show="session.role != 'readonly'" ng-click="tagIssue(checkedIssues, true, 'FalsePositive')">Tag selected issues as false positive</button>
+            <button class="btn" type="button" ng-show="session.role != 'readonly'" ng-click="tagIssue(checkedIssues, true, 'Ignored')">Tag selected issues as ignored</button>
 
         </div>
 
@@ -121,7 +121,7 @@
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th></th>
+                  <th ng-show="session.role != 'readonly'"></th>
                   <th>Status</th>
                   <th>Severity</th>
                   <th>Plugin</th>
@@ -129,7 +129,7 @@
                 </tr>
               </thead>
               <tr ng-repeat="issue in false_positive_issues">
-                <td><input type="checkbox" ng-model="checkedFalsePositiveIssues[issue.Id]"></td>
+                <td ng-show="session.role != 'readonly'"><input type="checkbox" ng-model="checkedFalsePositiveIssues[issue.Id]"></td>
                 <td>
                     <span class="label severity-{{issue.Status}} minion-severity-label">{{issue.Status}}</span>
                 </td>
@@ -139,7 +139,7 @@
               </tr>
             </table>
 
-            <button class="btn" type="button" ng-click="tagIssue(checkedFalsePositiveIssues, false, 'False positive')">Untag selected issues as false positive</button>
+            <button class="btn" type="button" ng-show="session.role != 'readonly'" ng-click="tagIssue(checkedFalsePositiveIssues, false, 'False positive')">Untag selected issues as false positive</button>
 
         </div>
 
@@ -150,7 +150,7 @@
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th></th>
+                  <th ng-show="session.role != 'readonly'"></th>
                   <th>Status</th>
                   <th>Severity</th>
                   <th>Plugin</th>
@@ -158,7 +158,7 @@
                 </tr>
               </thead>
               <tr ng-repeat="issue in ignored_issues">
-                <td><input type="checkbox" ng-model="checkedIgnoredIssues[issue.Id]"></td>
+                <td ng-show="session.role != 'readonly'"><input type="checkbox" ng-model="checkedIgnoredIssues[issue.Id]"></td>
                 <td>
                     <span class="label severity-{{issue.Status}} minion-severity-label">{{issue.Status}}</span>
                 </td>
@@ -168,7 +168,7 @@
               </tr>
             </table>
 
-            <button class="btn" type="button" ng-click="tagIssue(checkedIgnoredIssues, false, 'Ignored')">Untag selected issues as ignored</button>
+            <button class="btn" type="button" ng-show="session.role != 'readonly'" ng-click="tagIssue(checkedIgnoredIssues, false, 'Ignored')">Untag selected issues as ignored</button>
 
         </div>
 
