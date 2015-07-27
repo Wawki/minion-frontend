@@ -7,6 +7,14 @@
 <div class="container" ng-controller="IssueController">
 
   <h2>Issue Details <span class="pull-right "><small>&larr; <a ng-href="#!/scan/{{scan.id}}">Scan Results</a></small></span></h2>
+      <span ng-show="issue.Status == 'Fixed'" class="fixed-issue">Fixed</span>
+      <span ng-show="issue.Status == 'FalsePositive'"><span class="false-positive">False Positive</span> <button class="btn" type="button"  ng-show="session.role != 'readonly'" ng-click="tagIssue(issue.Id, false, '-')">Untag as false positive</button></span>
+      <span ng-show="issue.Status == 'Ignored'"><span class="ignored">Ignored</span> <button class="btn" type="button" ng-show="session.role != 'readonly'" ng-click="tagIssue(issue.Id, false, '-')">Untag as ignored</button></span>
+      <span ng-show="session.role != 'readonly' && issue.Status != 'Fixed' && issue.Status != 'FalsePositive' && issue.Status != 'Ignored'">
+          <button class="btn" type="button" ng-click="tagIssue(issue.Id, true, 'FalsePositive')">Tag as false positive</button>
+          <button class="btn" type="button" ng-click="tagIssue(issue.Id, true, 'Ignored')">Tag as ignored</button></span>
+      </span>
+      <span class="pull-right "><small>&larr; <a ng-href="#!/scan/{{scan.id}}">Scan Results</a></small></span></h2>
 
   <table class="table table-bordered">
     <tr>
@@ -31,7 +39,7 @@
     </tr>
     <tr>
       <td><b>Plugin</b></td>
-      <td>{{session.plugin.name}} {{session.plugin.version}}</td>
+      <td>{{issue_session.plugin.name}} {{issue_session.plugin.version}}</td>
     </tr>
   </table>
 
