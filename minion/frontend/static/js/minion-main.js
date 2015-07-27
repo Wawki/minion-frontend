@@ -724,7 +724,7 @@ app.controller("IssueController", function($scope, $routeParams, $http) {
     $scope.$on('$viewContentLoaded', function() {
         $http.get('/api/scan/' + $routeParams.scanId + '/issue/' + $routeParams.issueId).success(function(response, status, headers, config) {
             $scope.issue = response.data.issue;
-            $scope.session = response.data.session;
+            $scope.issue_session = response.data.session;
             $scope.scan = response.data.scan;
         });
     });
