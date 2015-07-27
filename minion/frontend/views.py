@@ -622,8 +622,7 @@ def api_plan(minion_plan_name):
     return jsonify(success=True,data=plan)
 
 @app.route("/api/scan/start", methods=['PUT'])
-@requires_session('administrator')
-@requires_session('user')
+@requires_session
 def api_scan_start():
     # Find the plan and site
     plan = request.json['plan']
