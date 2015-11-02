@@ -41,8 +41,8 @@ def get_user(email):
         return None
     return j.get('user')
 
-def create_user(email, role):
-    user = { 'email': email, 'role': role }
+def create_user(email, role, groups):
+    user = { 'email': email, 'role': role, 'groups': groups }
     r = requests.post(config['backend-api']['url'] + "/users",
                       headers={'Content-Type': 'application/json'},
                       data=json.dumps(user))
@@ -55,13 +55,13 @@ def create_user(email, role):
 def get_or_create_user(email):
     user = get_user(email)
     if not user:
-        user = create_user(email, 'user')
+        user = create_user(email, 'readonly', ['SSL'])
     return user
 
 def login_or_create_user(email):
     user = login_user(email)
     if not user:
-        user = create_user(email, "user")
+        user = create_user(email, "readonly", ['SSL'])
     return user
 
 def accept_invite(recipient, data):
@@ -646,7 +646,8 @@ def api_scan_start():
     return jsonify(success=r.json()['success'], reason=r.json().get('reason'))
 
 @app.route("/api/scan/stop", methods=['PUT'])
-@requires_session
+@requires_session('administrator')
+@requires_session('user')
 def api_scan_stop():
     # Get the scan id
     scan_id = request.json['scanId']

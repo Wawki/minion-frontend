@@ -9,7 +9,7 @@ var minionAdminUsersModule = angular.module('minionAdminUsersModule', []);
 minionAdminUsersModule.controller("AdminEditUserController", function ($scope, dialog, user, groups) {
     $scope.user = user;
     $scope.groups = groups;
-    $scope.roles = ["user", "administrator"];
+    $scope.roles = ["user", "administrator", "readonly"];
 
     $scope.cancel = function () {
         dialog.close(null);
@@ -24,7 +24,7 @@ minionAdminUsersModule.controller("AdminEditUserController", function ($scope, d
 minionAdminUsersModule.controller("AdminCreateUserController", function ($scope, dialog, users, groups) {
     $scope.user = {email:"", name: "", groups:[], role: "user"};
     $scope.groups = groups;
-    $scope.roles = ["user", "administrator"];
+    $scope.roles = ["user", "administrator", "readonly"];
 
     $scope.cancel = function () {
         dialog.close(null);
