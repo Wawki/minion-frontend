@@ -78,7 +78,7 @@
     </tr>
     <tr ng-show='url.Extra'>
 	    <td><b>Extra</b></td>
-	    <td>{{url.Extra}}</td>
+	    <td ng-bind-html-unsafe="url.Extra|text">{{url.Extra}}</td>
     </tr>
     <tr ng-show='url.Code'>
 	    <td><b>Incriminated code</b></td>
