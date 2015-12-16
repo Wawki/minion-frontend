@@ -98,6 +98,20 @@ minionAdminSitesModule.controller("AdminSitesController", function($scope, $rout
         });
     };
 
+    $scope.removeSite = function(site) {
+        var title = 'Delete definitely the site';
+        var msg = 'Are you sure you want to delete everything relating to ' + site.url + ' ? ';
+        msg += 'Warning this will delete every reference to the target and existing results';
+        var btns = [{result:false, label: 'Cancel'}, {result:true, label: 'OK', cssClass: 'btn-primary'}];
+        $dialog.messageBox(title, msg, btns).open().then(function(result) {
+            if (result) {
+                $http.delete('/api/admin/sites/' + site.id).success(function(response) {
+                    reload();
+                });
+            }
+        });
+    };
+
     $scope.$on('$viewContentLoaded', function() {
         reload();
     });

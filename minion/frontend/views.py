@@ -160,6 +160,14 @@ def _backend_update_site(site_id, site):
         return None
     return j.get('site')
 
+
+def _backend_delete_site(site_id):
+    r = requests.delete(config['backend-api']['url'] + "/sites/" + site_id)
+    r.raise_for_status()
+    j = r.json()
+    return j
+
+
 def _backend_add_invite(invite, sender):
     invite['sender'] = sender
     r = requests.post(config['backend-api']['url'] + "/invites",
@@ -698,6 +706,17 @@ def post_api_admin_sites_site_id(site_id):
     if not site:
         return jsonify(success=False, reason='unknown')
     return jsonify(success=True, data=site)
+
+
+@app.route("/api/admin/sites/<site_id>", methods=["DELETE"])
+@requires_session('administrator')
+def delete_api_admin_sites_site_id(site_id):
+    # Delete a site
+    site = _backend_delete_site(site_id)
+    if not site:
+        return jsonify(success=False, reason='unknown')
+    return jsonify(success=True, data=site)
+
 
 @app.route("/api/admin/users", methods=['GET'])
 @requires_session('administrator')
