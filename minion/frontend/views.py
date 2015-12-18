@@ -654,8 +654,7 @@ def api_scan_start():
     return jsonify(success=r.json()['success'], reason=r.json().get('reason'))
 
 @app.route("/api/scan/stop", methods=['PUT'])
-@requires_session('administrator')
-@requires_session('user')
+@requires_session
 def api_scan_stop():
     # Get the scan id
     scan_id = request.json['scanId']
