@@ -22,6 +22,10 @@
             <td><b>Target</b></td>
             <td><a href="{{scan.configuration.target}}" target="_blank">{{scan.configuration.target}}</a></td>
           </tr>
+          <tr ng-repeat="(tag, value) in scan.configuration.tags">
+            <td><b>{{tag}}</b></td>
+            <td>{{value}}</td>
+          </tr>
           <tr>
             <td><b>Started</b></td>
             <td>{{(scan.started | scan_datetime) || "-"}} <span ng-show="scan.started">({{scan.started | scan_datetime_fromnow }})</span></td>

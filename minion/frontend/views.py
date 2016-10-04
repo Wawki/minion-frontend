@@ -55,13 +55,13 @@ def create_user(email, role, groups):
 def get_or_create_user(email):
     user = get_user(email)
     if not user:
-        user = create_user(email, 'readonly', ['SSL'])
+        user = create_user(email, 'readonly', config['default_groups'])
     return user
 
 def login_or_create_user(email):
     user = login_user(email)
     if not user:
-        user = create_user(email, "readonly", ['SSL'])
+        user = create_user(email, "readonly", config['default_groups'])
     return user
 
 def accept_invite(recipient, data):

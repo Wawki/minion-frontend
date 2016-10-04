@@ -13,7 +13,7 @@ DEFAULT_FRONTEND_CONFIG = {
         'url': 'http://127.0.0.1:8383'
     },
     'login_conf': {
-       'login_type': 'persona', # persona OR ldap
+       'login_type': 'persona',  # persona OR ldap
 
        'ldap_uri': 'ldaps://ldap.server/',
        'ldap_base': 'ou=test,dc=test_dc',
@@ -22,7 +22,8 @@ DEFAULT_FRONTEND_CONFIG = {
        'ldap_base_group': 'ou=group,dc=test_group',
        'ldap_filter_group': '(object=Object)(test=Test)',
        'ldap_authorized_groups': ['groupTest1', 'groupTest2']
-    }
+    },
+    'default_groups': ['Test']  # Groups affected to new user
 
 }
 
